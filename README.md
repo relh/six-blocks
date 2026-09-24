@@ -96,3 +96,16 @@ Connect a WebSocket to `COWORLD_PLAYER_WS_URL`, read the `welcome` and daily
 `dashboard` messages, send `inspect` / `action` / `end_day` JSON messages. Full
 protocol with examples: [docs/player_protocol.md](docs/player_protocol.md). The
 baseline in `citysim/player/player.py` is a complete working example.
+
+## Training
+
+`python -m citysim.training_bridge` runs the deterministic game core through the shared Coworld JSONL decision
+protocol. The bridge trains the single manager seat from the daily dashboard. Its numeric codec has 67 city and block
+values and 73 fixed action slots: the 12 interventions on six blocks plus `end_day`. Illegal interventions are masked
+using the game's own cost and precondition checks. The shipped `balanced_baseline` supplies teacher actions, and
+terminal utility maps the game's 0–100 score to [-1, 1].
+
+Pass this command to Metta's `recipes.external.coworld_metta_rl` or `recipes.external.coworld` with `players=1` and a
+finite timestep limit. Metta post-training can collect full 30-day teacher trajectories from the same bridge. The
+codec uses the dashboard; free `inspect` calls remain available in the hosted player protocol and are not modeled by
+this numeric policy.
