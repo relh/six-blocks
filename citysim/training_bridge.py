@@ -9,7 +9,6 @@ from citysim.simulation.engine import Episode
 from citysim.simulation.interventions import INTERVENTIONS, check_precondition
 from citysim.simulation.world import BLOCK_ORDER
 
-
 GLOBAL_VALUES = (
     "day", "days_remaining", "budget", "daily_upkeep", "action_points_remaining", "population",
     "average_mood", "median_rent", "average_rent_burden", "mobility", "cleanliness", "business_health", "health",

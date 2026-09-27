@@ -105,7 +105,13 @@ values and 73 fixed action slots: the 12 interventions on six blocks plus `end_d
 using the game's own cost and precondition checks. The shipped `balanced_baseline` supplies teacher actions, and
 terminal utility maps the game's 0–100 score to [-1, 1].
 
-Pass this command to Metta's `recipes.external.coworld_metta_rl` or `recipes.external.coworld` with `players=1` and a
-finite timestep limit. Metta post-training can collect full 30-day teacher trajectories from the same bridge. The
-codec uses the dashboard; free `inspect` calls remain available in the hosted player protocol and are not modeled by
-this numeric policy.
+Pass this command to Metta's current `recipes.external.coworld` with `players=1`, `max_decisions=120`, and a finite
+timestep limit. Use the Python interpreter from the environment where CitySim is installed. Declare the tracked
+`citysim/**/*.py` files as environment assets so checkpoint provenance includes the simulator and policy code.
+Native PufferLib requires a reserved NVIDIA GPU. The historical Metta RL optimizer proof is recorded in PR #8;
+its retired `recipes.external.coworld_metta_rl` entry point is not a current command.
+
+Metta post-training can collect full 30-day teacher trajectories from the same bridge. Repeat `--bridge-command` for
+the installed interpreter, `-m`, and `citysim.training_bridge`; pass `--players 1 --max-decisions 120`. Export completed
+episodes with disjoint training and validation seeds. The codec uses the dashboard; free `inspect` calls remain
+available in the hosted player protocol and are not modeled by this numeric policy.
